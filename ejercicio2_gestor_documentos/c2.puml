@@ -1,0 +1,42 @@
+@startuml
+
+actor "Administrador" as Admin
+
+node "Report System" {
+    component "ReportSystem\n" as ReportSystem
+
+    package "Factories" {
+        component "ReportContentFactory"
+        component "FormatterFactory"
+        component "DeliveryFactory"
+    }
+
+    package "Strategies" {
+        component "ReportContentStrategy"
+        component "SalesReportContent"
+        component "InventoryReportContent"
+        component "FinancialReportContent"
+
+        component "ReportFormatter"
+        component "PDFFormatter"
+        component "ExcelFormatter"
+        component "HTMLFormatter"
+
+        component "DeliveryStrategy"
+        component "EmailDelivery"
+        component "DownloadDelivery"
+        component "CloudDelivery"
+    }
+}
+
+Admin --> ReportSystem : generate_report()
+
+ReportSystem --> ReportContentFactory
+ReportSystem --> FormatterFactory
+ReportSystem --> DeliveryFactory
+
+ReportContentFactory --> ReportContentStrategy
+FormatterFactory --> ReportFormatter
+DeliveryFactory --> DeliveryStrategy
+
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+
+actor "Administrador" as Admin
+
+rectangle "Report System" as RS {
+}
+
+Admin --> RS : Solicita\n"generate_report(type, data, format, delivery)"
+RS --> Admin : Reporte formateado / Notificación de entrega
+
+@enduml

@@ -1,0 +1,72 @@
+@startuml
+
+interface ReportContentStrategy {
+    +generate(data: dict): str
+}
+
+interface ReportFormatter {
+    +format(text: str): str
+}
+
+interface DeliveryStrategy {
+    +deliver(formatted: str, type: str)
+}
+
+
+class SalesReportContent implements ReportContentStrategy
+class InventoryReportContent implements ReportContentStrategy
+class FinancialReportContent implements ReportContentStrategy
+
+
+class PDFFormatter implements ReportFormatter
+class ExcelFormatter implements ReportFormatter
+class HTMLFormatter implements ReportFormatter
+
+
+class EmailDelivery implements DeliveryStrategy
+class DownloadDelivery implements DeliveryStrategy
+class CloudDelivery implements DeliveryStrategy
+
+
+class ReportContentFactory {
+    -_registry: dict
+    +create(type: str): ReportContentStrategy
+}
+
+class FormatterFactory {
+    -_registry: dict
+    +create(type: str): ReportFormatter
+}
+
+class DeliveryFactory {
+    -_registry: dict
+    +create(type: str): DeliveryStrategy
+}
+
+
+class ReportSystem {
+    +generate_report(type, data, format, delivery)
+}
+
+
+ReportSystem --> ReportContentFactory
+ReportSystem --> FormatterFactory
+ReportSystem --> DeliveryFactory
+
+ReportContentFactory --> ReportContentStrategy
+FormatterFactory --> ReportFormatter
+DeliveryFactory --> DeliveryStrategy
+
+ReportContentStrategy <|-- SalesReportContent
+ReportContentStrategy <|-- InventoryReportContent
+ReportContentStrategy <|-- FinancialReportContent
+
+ReportFormatter <|-- PDFFormatter
+ReportFormatter <|-- ExcelFormatter
+ReportFormatter <|-- HTMLFormatter
+
+DeliveryStrategy <|-- EmailDelivery
+DeliveryStrategy <|-- DownloadDelivery
+DeliveryStrategy <|-- CloudDelivery
+
+@enduml
