@@ -1,0 +1,16 @@
+@startuml C1
+
+actor "Cliente" as Customer
+actor "Administrador" as Admin
+
+rectangle "Order Processing System" as OPS {
+}
+
+Customer --> OPS : Realiza pedidos
+Admin --> OPS : Consulta historial de notificaciones
+
+OPS --> "Proveedor de Email" : Envía notificaciones
+OPS --> "Proveedor de SMS" : Envía notificaciones
+OPS --> "Proveedor Push" : Envía notificaciones
+
+@enduml

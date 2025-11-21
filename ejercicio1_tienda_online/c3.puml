@@ -1,0 +1,55 @@
+@startuml C3
+
+package "Dominio" {
+    class Order {
+        +order_id: str
+        +customer: Customer
+        +total: float
+    }
+
+    class Customer {
+        +name: str
+        +email: str
+    }
+}
+
+package "Capa de notificación" {
+    interface Notifier {
+        +notify(order: Order)
+    }
+
+    class EmailNotifier implements Notifier {
+        +notify(order: Order)
+    }
+    class SMSNotifier implements Notifier {
+        +notify(order: Order)
+    }
+    class PushNotifier implements Notifier{
+        +notify(order: Order)
+    }
+
+    class NotifierFactory {
+        +create_notifier(type: str): Notifier
+    }
+}
+
+package "Aplicacion" {
+    class OrderProcessor {
+        +process_order(order, notifiers)
+        +get_notification_history()
+    }
+
+    class NotificationRepository {
+        +save(notification)
+        +get_all()
+    }
+}
+
+OrderProcessor --> NotificationRepository
+OrderProcessor --> Notifier
+NotifierFactory --> Notifier
+Notifier --> NotificationRepository
+Order --> Notifier
+Order --> OrderProcessor
+
+@enduml

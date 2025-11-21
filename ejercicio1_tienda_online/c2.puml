@@ -1,0 +1,19 @@
+@startuml C2
+
+actor "Cliente" as Customer
+actor "Administrador" as Admin
+
+node "Order Processing Application" as App {
+    component "OrderProcessor\n(Lógica de negocio)" as Processor
+    component "Notifier Factory\n(Creación de notifiers)" as Factory
+    component "Notifiers\n(Email/SMS/Push)" as Notifiers
+    component "Notification Repository\n(Memoria/DB)" as Repo
+}
+
+Customer --> Processor : Envía Order
+Processor --> Factory : Solicita notifier
+Processor --> Notifiers : Envía Order
+Notifiers --> Repo : Guarda notificación
+Admin --> Repo : Consulta historial
+
+@enduml
